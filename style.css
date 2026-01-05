@@ -6,6 +6,11 @@ body {
     font-family: 'Noto Sans TC', sans-serif;
     color: #e5e5e5;
     /* Light text default */
+    height: 100%;
+}
+
+html {
+    height: 100%;
 }
 
 #canvas-container {

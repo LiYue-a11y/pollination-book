@@ -411,6 +411,12 @@ for (let i = 0; i < 5; i++) {
 let mouseX = 0;
 let mouseY = 0;
 
+// Gyroscope Variables
+let gyroX = 0;
+let gyroY = 0;
+let initialGamma = null;
+let initialBeta = null;
+
 document.addEventListener('mousemove', (event) => {
     mouseX = (event.clientX - window.innerWidth / 2) * 0.001;
     mouseY = (event.clientY - window.innerHeight / 2) * 0.001;
@@ -475,10 +481,7 @@ window.addEventListener('resize', () => {
 });
 
 // --- 5. Mobile Gyroscope Parallax ---
-let gyroX = 0;
-let gyroY = 0;
-let initialGamma = null;
-let initialBeta = null;
+
 
 function handleOrientation(event) {
     // calibrate on first valid reading
