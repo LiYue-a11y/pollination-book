@@ -44,7 +44,7 @@ async function callGemini(prompt) {
         // If they set it, continue
     }
 
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${getApiKey()}`;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${getApiKey()}`;
 
     const payload = {
         contents: [{
