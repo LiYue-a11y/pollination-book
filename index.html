@@ -52,22 +52,22 @@
         <nav class="interactive-element w-full md:w-auto overflow-hidden flex items-center gap-4">
             <!-- Added overflow-x-auto for mobile scrolling -->
             <ul id="nav-container"
-                class="flex-grow md:flex-grow-0 flex md:justify-end space-x-6 md:space-x-8 text-sm md:text-base font-medium text-gray-400 tracking-wide bg-black/50 backdrop-blur-md border border-white/10 px-6 py-2 rounded-full shadow-lg transition-all duration-300 overflow-x-auto scrollbar-hide whitespace-nowrap mask-linear-gradient">
-                <!-- Change: Replaced <a> tags with <button> tags to prevent any link/tab behavior in iframes -->
-                <li><button onclick="switchPage('home')"
-                        class="nav-link hover:text-[#D4AF37] transition-colors duration-300 text-[#D4AF37] focus:outline-none">首頁</button>
+                class="flex-grow md:flex-grow-0 flex items-center justify-between md:justify-end gap-2 text-sm md:text-base font-medium text-gray-400 tracking-wide bg-black/50 backdrop-blur-md border border-white/10 px-2 py-2 rounded-full shadow-lg transition-all duration-300 overflow-x-auto scrollbar-hide whitespace-nowrap mask-linear-gradient relative">
+                <li class="relative z-10 w-20 md:w-24 text-center flex-shrink-0"><button onclick="switchPage('home')"
+                        class="nav-link w-full py-1 hover:text-[#D4AF37] transition-colors duration-300 text-[#D4AF37] focus:outline-none">首頁</button>
                 </li>
-                <li><button onclick="switchPage('carrier')"
-                        class="nav-link hover:text-[#D4AF37] transition-colors duration-300 focus:outline-none">關於載體</button>
+                <li class="relative z-10 w-20 md:w-24 text-center flex-shrink-0"><button onclick="switchPage('carrier')"
+                        class="nav-link w-full py-1 hover:text-[#D4AF37] transition-colors duration-300 focus:outline-none">關於載體</button>
                 </li>
-                <li><button onclick="switchPage('knowledge')"
-                        class="nav-link hover:text-[#D4AF37] transition-colors duration-300 focus:outline-none">授粉知識</button>
+                <li class="relative z-10 w-20 md:w-24 text-center flex-shrink-0"><button
+                        onclick="switchPage('knowledge')"
+                        class="nav-link w-full py-1 hover:text-[#D4AF37] transition-colors duration-300 focus:outline-none">授粉知識</button>
                 </li>
-                <li><button onclick="switchPage('species')"
-                        class="nav-link hover:text-[#D4AF37] transition-colors duration-300 focus:outline-none">物種檔案</button>
+                <li class="relative z-10 w-20 md:w-24 text-center flex-shrink-0"><button onclick="switchPage('species')"
+                        class="nav-link w-full py-1 hover:text-[#D4AF37] transition-colors duration-300 focus:outline-none">物種檔案</button>
                 </li>
-                <li><button onclick="switchPage('team')"
-                        class="nav-link hover:text-[#D4AF37] transition-colors duration-300 focus:outline-none">製作團隊</button>
+                <li class="relative z-10 w-20 md:w-24 text-center flex-shrink-0"><button onclick="switchPage('team')"
+                        class="nav-link w-full py-1 hover:text-[#D4AF37] transition-colors duration-300 focus:outline-none">製作團隊</button>
                 </li>
             </ul>
 
@@ -129,145 +129,194 @@
 
     <!-- Page: Carrier -->
     <section id="carrier" class="page-section solid-page">
-        <div class="max-w-4xl mx-auto w-full pt-4 md:pt-12">
-            <h1 class="serif-font text-3xl md:text-4xl text-[#D4AF37] mb-6">關於載體</h1>
-            <div class="h-1 w-20 bg-gray-700 mb-8 md:mb-12"></div>
-            <p class="text-gray-400 leading-loose text-sm md:text-base">
-                這本書不僅僅是數位的呈現，它是一個關於記憶與傳遞的隱喻。透過 WebGL 技術，我們在瀏覽器中重建了紙張的纖維質感與光影的幾何關係。每一個多邊形的蜜蜂，都象徵著自然界中微小卻不可或缺的連結。
-                <br><br>
-                在設計上，我們採用了極簡的深色美學，試圖在數位螢幕的強光中，為讀者開闢出一塊得以喘息、靜謐的閱讀空間。
-            </p>
+        <div class="mntn-container w-full pt-20 md:pt-32 px-4 md:px-12">
+
+            <!-- Section 01 -->
+            <div class="mntn-section">
+                <div class="mntn-content">
+                    <div class="mntn-number">01</div>
+                    <span class="mntn-label">THE METAPHOR</span>
+                    <h2 class="mntn-title">關於記憶<br>與傳遞</h2>
+                    <p class="mntn-desc">
+                        這本書不僅僅是數位的呈現，它是一個關於記憶與傳遞的隱喻。透過 WebGL 技術，我們在瀏覽器中重建了紙張的纖維質感與光影的幾何關係。
+                        <br><br>
+                        每一個多邊形的蜜蜂，都象徵著自然界中微小卻不可或缺的連結。它們在虛擬的空間中飛行，如同真實世界中花粉的傳遞者，攜帶著生命的訊息。
+                    </p>
+                    <div class="mntn-link">READ MORE <span>→</span></div>
+                </div>
+                <div class="mntn-image-container">
+                    <img src="img/carrier_art_1.png" alt="Paper Texture Art">
+                </div>
+            </div>
+
+            <!-- Section 02 -->
+            <div class="mntn-section">
+                <div class="mntn-content">
+
+                    <span class="mntn-label">DESIGN SYSTEM</span>
+                    <h2 class="mntn-title">極簡與<br>靜謐空間</h2>
+                    <p class="mntn-desc">
+                        在設計上，我們採用了極簡的深色美學 (Dark Mode Aesthetics)，利用黑與金的對比，試圖在數位螢幕的強光中，為讀者開闢出一塊得以喘息、靜謐的閱讀空間。
+                        <br><br>
+                        每一個互動微動畫都經過精密計算，旨在不干擾閱讀體驗的前提下，提供一種優雅的回饋感。
+                    </p>
+                </div>
+                <div class="mntn-image-container">
+                    <img src="img/carrier_art_2.png" alt="Geometric Structure Art">
+                </div>
+            </div>
+
         </div>
     </section>
 
-    <!-- Page 2: Knowledge (Gemini Powered) -->
+    <!-- Page: Knowledge (Gemini Powered) -->
     <section id="knowledge" class="page-section solid-page">
-        <div class="max-w-4xl mx-auto w-full pt-4 md:pt-12 h-full flex flex-col">
-            <h1 class="serif-font text-3xl md:text-4xl text-[#D4AF37] mb-2">授粉知識：蜂巢意識</h1>
-            <p class="text-gray-500 text-xs md:text-sm mb-6 uppercase tracking-wider">Powered by Gemini AI</p>
-            <div class="h-1 w-20 bg-gray-700 mb-8"></div>
-
-            <div class="flex-grow flex flex-col gap-6">
-                <div class="bg-[#111] border border-white/10 rounded-xl p-4 md:p-6 shadow-2xl">
-                    <label class="block text-gray-400 text-sm mb-3">向自然嚮導提問：</label>
-                    <div class="flex flex-col md:flex-row gap-3">
-                        <input type="text" id="hive-input" placeholder="例如：蜜蜂為什麼會跳舞？蝴蝶喜歡什麼顏色的花？"
-                            class="flex-grow bg-[#050505] text-white border border-gray-700 rounded-lg px-4 py-3 focus:outline-none focus:border-[#D4AF37] transition-colors placeholder-gray-600 text-sm md:text-base">
-                        <button onclick="askHiveMind()"
-                            class="bg-[#D4AF37] hover:bg-[#bfa34b] text-black font-bold px-6 py-3 rounded-lg transition-all flex items-center justify-center gap-2 md:min-w-[140px]">
-                            <span>✨ 詢問</span>
-                        </button>
+        <div class="mntn-container w-full pt-20 md:pt-32 px-4 md:px-12">
+            <div class="mntn-section">
+                <div class="mntn-content">
+                    <div class="mntn-number">02</div>
+                    <span class="mntn-label">HIVE MIND AI</span>
+                    <h2 class="mntn-title">授粉知識<br>蜂巢意識</h2>
+                    <p class="mntn-desc">
+                        知識就像花粉，等待傳遞。我們串接了 Google Gemini 模型，為您打造了一個專屬的自然導覽員。
+                        <br><br>
+                        您可以隨意詢問關於授粉生態、昆蟲習性或植物學的問題。AI 將以詩意且精準的語言，為您解開大自然的奧秘。
+                    </p>
+                    <div class="mt-8 p-4 border border-white/10 rounded-lg bg-white/5">
+                        <label class="block text-[#D4AF37] text-xs uppercase tracking-wider mb-2">Try asking:</label>
+                        <p class="text-sm text-gray-400 italic">"蜜蜂為什麼會跳舞？"</p>
+                        <p class="text-sm text-gray-400 italic">"蝴蝶喜歡什麼顏色的花？"</p>
                     </div>
                 </div>
 
-                <div id="hive-response-container"
-                    class="flex-grow bg-[#0a0a0a] border border-white/5 rounded-xl p-6 md:p-8 overflow-y-auto relative min-h-[300px]">
-                    <div id="hive-placeholder" class="text-center text-gray-600 mt-10 md:mt-20">
-                        <div class="mb-4 text-4xl opacity-30">❁</div>
-                        <p>知識就像花粉，等待傳遞。<br>請輸入問題，喚醒蜂巢意識。</p>
-                        <p class="text-xs text-gray-700 mt-4">(若無法使用，請點擊右上角鑰匙圖示設定 API Key)</p>
-                    </div>
-                    <div id="hive-loading"
-                        class="hidden absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-10">
-                        <div class="typing-indicator">
-                            <span></span><span></span><span></span>
+                <!-- Interactive Component (Right Side) -->
+                <div class="flex-1 w-full max-w-xl">
+                    <div class="bg-[#111] border border-white/10 rounded-xl p-6 shadow-2xl h-[500px] flex flex-col">
+                        <div id="hive-response-container" class="flex-grow overflow-y-auto mb-4 relative">
+                            <div id="hive-placeholder" class="text-center text-gray-600 mt-20">
+                                <div class="text-4xl opacity-30 mb-4">❁</div>
+                                <p>請在下方輸入問題<br>喚醒蜂巢意識</p>
+                            </div>
+                            <div id="hive-loading"
+                                class="hidden absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-10">
+                                <div class="typing-indicator"><span></span><span></span><span></span></div>
+                            </div>
+                            <div id="hive-output" class="ai-response text-gray-300 hidden text-sm leading-relaxed">
+                            </div>
+                        </div>
+
+                        <div class="flex gap-2 border-t border-white/10 pt-4">
+                            <input type="text" id="hive-input" placeholder="詢問關於大自然的問題..."
+                                class="flex-grow bg-[#050505] text-white border border-gray-700 rounded-lg px-4 py-3 focus:outline-none focus:border-[#D4AF37] transition-colors text-sm">
+                            <button onclick="askHiveMind()"
+                                class="bg-[#D4AF37] hover:bg-[#bfa34b] text-black font-bold px-4 rounded-lg transition-all">
+                                ➔
+                            </button>
                         </div>
                     </div>
-                    <div id="hive-output" class="ai-response text-gray-300 hidden text-sm md:text-base"></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Page 3: Species (Gemini Powered) -->
+    <!-- Page: Species (Gemini Powered) -->
     <section id="species" class="page-section solid-page">
-        <div class="max-w-4xl mx-auto w-full pt-4 md:pt-12">
-            <h1 class="serif-font text-3xl md:text-4xl text-[#D4AF37] mb-2">物種檔案</h1>
-            <p class="text-gray-500 text-xs md:text-sm mb-6 uppercase tracking-wider">AI Generated Archive</p>
-            <div class="h-1 w-20 bg-gray-700 mb-8 md:mb-12"></div>
-
-            <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-start">
-                <div class="space-y-6">
-                    <p class="text-gray-400 leading-relaxed text-sm md:text-base">
-                        授粉者的世界遠比我們想像的廣闊。除了蜜蜂與蝴蝶，還有無數的甲蟲、蝙蝠甚至蜥蜴參與這場生命的傳遞。
+        <div class="mntn-container w-full pt-20 md:pt-32 px-4 md:px-12">
+            <div class="mntn-section" style="flex-direction: row-reverse;">
+                <div class="mntn-content">
+                    <div class="mntn-number">03</div>
+                    <span class="mntn-label">ARCHIVE</span>
+                    <h2 class="mntn-title">物種檔案<br>資料庫</h2>
+                    <p class="mntn-desc">
+                        透過 AI 的生成能力，我們建立了一個無窮盡的物種檔案庫。
                         <br><br>
-                        點擊下方按鈕，讓 AI 為您從資料庫中隨機提取並介紹一位獨特的「授粉夥伴」。
+                        不僅止於蜜蜂與蝴蝶，這裡收錄了來自熱帶雨林到極地高山的各種珍稀授粉者。每次點擊，都是一次新的相遇。
                     </p>
+
                     <button onclick="generateSpeciesProfile()"
-                        class="w-full border border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black py-4 px-6 rounded-lg transition-all duration-300 uppercase tracking-widest text-sm font-bold flex items-center justify-center gap-3 group">
-                        <span>✨ 探索新物種</span>
-                        <span class="group-hover:rotate-180 transition-transform duration-500">❀</span>
+                        class="mntn-link group bg-transparent border-none p-0 focus:outline-none mt-8">
+                        <span class="text-xl">✨</span>
+                        <span>探索隨機物種</span>
+                        <span class="group-hover:translate-x-2 transition-transform">→</span>
                     </button>
                 </div>
 
-                <div
-                    class="bg-[#111] border border-[#D4AF37]/30 rounded-xl p-6 md:p-8 relative min-h-[400px] flex flex-col justify-center items-center text-center">
-                    <div id="species-loading"
-                        class="hidden absolute inset-0 bg-[#111] z-10 flex items-center justify-center rounded-xl">
-                        <div class="text-[#D4AF37] animate-pulse text-sm tracking-widest">生成檔案中...</div>
-                    </div>
+                <!-- Interactive Component -->
+                <div class="flex-1 w-full max-w-xl">
+                    <div
+                        class="bg-[#111] border border-[#D4AF37]/30 rounded-xl p-8 min-h-[500px] flex flex-col justify-center items-center text-center relative overflow-hidden">
+                        <!-- Decorative BG -->
+                        <div class="absolute inset-0 opacity-10 pointer-events-none"
+                            style="background-image: radial-gradient(circle at center, #D4AF37 1px, transparent 1px); background-size: 20px 20px;">
+                        </div>
 
-                    <div id="species-content" class="w-full">
-                        <div
-                            class="w-24 h-24 rounded-full bg-[#1a1a1a] border border-[#333] mx-auto mb-6 flex items-center justify-center text-3xl text-gray-600">
-                            ?</div>
-                        <h3 class="serif-font text-2xl text-white mb-2">等待探索</h3>
-                        <p class="text-[#8A9A5B] italic text-sm mb-6">Unknown Species</p>
-                        <div class="h-px w-16 bg-gray-800 mx-auto mb-6"></div>
-                        <p class="text-gray-500 text-sm">點擊左側按鈕開始探索。</p>
+                        <div id="species-loading"
+                            class="hidden absolute inset-0 bg-[#111] z-20 flex items-center justify-center">
+                            <div class="text-[#D4AF37] animate-pulse text-sm tracking-widest">ANALYZING DNA...</div>
+                        </div>
+
+                        <div id="species-content" class="w-full relative z-10 transition-all duration-500">
+                            <div
+                                class="w-24 h-24 rounded-full bg-[#1a1a1a] border border-[#333] mx-auto mb-6 flex items-center justify-center text-3xl text-gray-600">
+                                ?</div>
+                            <h3 class="serif-font text-2xl text-white mb-2">等待探索</h3>
+                            <p class="text-[#8A9A5B] italic text-sm mb-6">Subject Unknown</p>
+                            <div class="h-px w-16 bg-gray-800 mx-auto mb-6"></div>
+                            <p class="text-gray-500 text-sm">點擊按鈕開始生成檔案</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Page 4: Team -->
+    <!-- Page: Team -->
     <section id="team" class="page-section solid-page">
-        <div class="max-w-4xl mx-auto w-full pt-4 md:pt-12 h-full flex flex-col items-center">
-            <h1 class="serif-font text-3xl md:text-4xl text-[#D4AF37] mb-6">製作團隊</h1>
-            <div class="h-1 w-20 bg-gray-700 mb-8 md:mb-12"></div>
-
-            <!-- Interactive 3D Flip Card Container -->
-            <div class="perspective-container w-full max-w-md h-[400px] relative mt-4">
-                <div id="team-card"
-                    class="team-card card-glass w-full h-full flex flex-col items-center justify-center p-8 text-center"
-                    onmousedown="startTeamDrag(event)" ontouchstart="startTeamDrag(event)">
-
-                    <!-- Dynamic Content -->
-                    <div
-                        class="w-24 h-24 rounded-full bg-gray-800 border-2 border-[#D4AF37] mb-6 overflow-hidden flex items-center justify-center relative">
-                        <span id="member-icon" class="text-4xl">👤</span>
-                    </div>
-
-                    <h2 id="member-name" class="text-2xl text-white font-bold mb-2 serif-font">Member Name</h2>
-                    <p id="member-role" class="text-[#D4AF37] text-sm uppercase tracking-widest mb-6">Role Title</p>
-
-                    <div class="h-px w-12 bg-white/20 mb-6"></div>
-
-                    <p id="member-desc" class="text-gray-400 text-sm leading-relaxed">
-                        Description goes here.
+        <div class="mntn-container w-full pt-20 md:pt-32 px-4 md:px-12">
+            <div class="mntn-section">
+                <div class="mntn-content">
+                    <div class="mntn-number">04</div>
+                    <span class="mntn-label">THE CREW</span>
+                    <h2 class="mntn-title">製作團隊</h2>
+                    <p class="mntn-desc">
+                        我們是來自朝陽科技大學視覺傳達設計系的學生，本作品隸屬於企劃模組的畢業製作。
+                        <br><br>
+                        透過跨越平面的思維，我們嘗試將設計語彙與數位科技結合，在虛擬的空間中，重新詮釋知識傳遞的溫度與可能性。
                     </p>
-
-                    <div class="mt-auto pt-8 flex gap-2 justify-center opacity-30">
-                        <span class="w-2 h-2 rounded-full bg-white"></span>
-                        <span class="w-2 h-2 rounded-full bg-white"></span>
-                        <span class="w-2 h-2 rounded-full bg-white"></span>
+                    <div class="mt-8 flex gap-4 text-gray-500 text-sm">
+                        <span>• &nbsp; Drag to Rotate</span>
+                        <span>• &nbsp; Swipe to Flip</span>
                     </div>
                 </div>
 
-                <!-- Navigation Hints -->
-                <div
-                    class="absolute top-1/2 -left-12 -translate-y-1/2 hidden md:block opacity-50 text-2xl animate-pulse">
-                    ‹</div>
-                <div
-                    class="absolute top-1/2 -right-12 -translate-y-1/2 hidden md:block opacity-50 text-2xl animate-pulse">
-                    ›</div>
+                <!-- Interactive Component -->
+                <div class="flex-1 w-full flex justify-center perspective-container h-[400px]">
+                    <div id="team-card"
+                        class="team-card card-glass w-full max-w-md h-full flex flex-col items-center justify-center p-8 text-center"
+                        onmousedown="startTeamDrag(event)" ontouchstart="startTeamDrag(event)">
+
+                        <!-- Dynamic Content -->
+                        <div
+                            class="w-24 h-24 rounded-full bg-gray-800 border-2 border-[#D4AF37] mb-6 overflow-hidden flex items-center justify-center relative shadow-[0_0_20px_rgba(212,175,55,0.3)]">
+                            <img id="member-img" class="absolute w-full h-full object-cover hidden" src=""
+                                alt="Team Member">
+                            <span id="member-icon" class="text-4xl">👤</span>
+                        </div>
+
+                        <h2 id="member-name" class="text-2xl text-white font-bold mb-2 serif-font">Member Name</h2>
+                        <p id="member-role" class="text-[#D4AF37] text-sm uppercase tracking-widest mb-6">Role Title</p>
+                        <div class="h-px w-12 bg-white/20 mb-6"></div>
+                        <p id="member-desc" class="text-gray-400 text-sm leading-relaxed">Description goes here.</p>
+
+                        <div class="mt-auto pt-8 flex gap-2 justify-center opacity-30">
+                            <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+                            <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+                            <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <p class="mt-8 text-gray-500 text-xs tracking-wider uppercase">Drag or Swipe to Flip</p>
         </div>
-
-
     </section>
 
     <!-- Three.js Script & Logic -->

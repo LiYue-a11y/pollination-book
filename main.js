@@ -185,6 +185,7 @@ async function generateSpeciesProfile() {
 
 // --- Navigation Logic ---
 // --- Navigation Logic with Transitions ---
+
 async function switchPage(pageId) {
     const isHome = (pageId === 'home');
     const currentIsHome = document.getElementById('home-page').classList.contains('active');
@@ -287,6 +288,18 @@ async function switchPage(pageId) {
 // --- 3D Team Card Logic ---
 const teamMembers = [
     {
+        name: "廖偉傑",
+        role: "組長 Team Leader",
+        desc: "負責包裝結構設計與進度規劃。統籌專案的整體走向，確保每一個設計環節都能精準到位，引領團隊前進。",
+        image: "img/Headshot02.jpg"
+    },
+    {
+        name: "李岳",
+        role: "組員 Team Member",
+        desc: "負責立體書結構設計，網頁製作。透過精密的紙藝結構與程式邏輯，將平面的視覺轉化為立體的數位體驗。",
+        image: "img/Headshot01.jpg"
+    },
+    {
         name: "Lina",
         role: "Visual Director",
         desc: "負責整體視覺風格設定，將自然的有機線條轉化為數位介面的語言。致力於創造具有情感溫度的互動體驗。",
@@ -332,10 +345,25 @@ window.addEventListener('DOMContentLoaded', initTeam);
 
 function updateTeamCard(index) {
     const member = teamMembers[index];
+    const imgEl = document.getElementById('member-img');
+    const iconEl = document.getElementById('member-icon');
+
     document.getElementById('member-name').textContent = member.name;
     document.getElementById('member-role').textContent = member.role;
     document.getElementById('member-desc').textContent = member.desc;
-    document.getElementById('member-icon').textContent = member.icon;
+
+    // Toggle Image vs Icon
+    if (member.image) {
+        imgEl.src = member.image;
+        imgEl.classList.remove('hidden');
+        if (iconEl) iconEl.classList.add('hidden');
+    } else {
+        imgEl.classList.add('hidden');
+        if (iconEl) {
+            iconEl.classList.remove('hidden');
+            iconEl.textContent = member.icon;
+        }
+    }
 }
 
 function startTeamDrag(e) {

@@ -435,8 +435,150 @@ html {
     animation-delay: var(--delay);
 }
 
-.decor-exit {
-    animation: geoSlideOutLeft 0.8s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
-    /* Exit is usually faster and less staggered to clear screen */
-    animation-delay: 0s !important;
+/* --- MNTN Style Layout --- */
+.mntn-container {
+    padding: 0 0 4rem 0;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.mntn-section {
+    display: flex;
+    flex-direction: column;
+    /* Mobile First */
+    gap: 4rem;
+    margin-bottom: 8rem;
+    align-items: center;
+}
+
+@media (min-width: 1024px) {
+    .mntn-section {
+        flex-direction: row;
+        gap: 6rem;
+        justify-content: space-between;
+    }
+
+    /* Alternating Layout */
+    .mntn-section:nth-child(even) {
+        flex-direction: row-reverse;
+    }
+}
+
+.mntn-content {
+    flex: 1;
+    position: relative;
+    max-width: 600px;
+}
+
+.mntn-image-container {
+    flex: 1;
+    width: 100%;
+    max-width: 600px;
+    aspect-ratio: 4/5;
+    background-color: #111;
+    position: relative;
+    overflow: hidden;
+    /* Reveal Animation Placeholder */
+    opacity: 0.8;
+    transition: opacity 0.5s;
+}
+
+.mntn-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: sepia(20%) contrast(1.1);
+}
+
+.mntn-image-container:hover {
+    opacity: 1;
+}
+
+/* Big Number Background */
+.mntn-number {
+    position: absolute;
+    top: -4rem;
+    left: -2rem;
+    font-family: 'Noto Serif TC', serif;
+    font-size: 8rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.1);
+    pointer-events: none;
+    line-height: 1;
+    z-index: 0;
+}
+
+.mntn-label {
+    display: inline-block;
+    color: #D4AF37;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    position: relative;
+    padding-left: 3rem;
+}
+
+.mntn-label::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 2rem;
+    height: 1px;
+    background-color: #D4AF37;
+}
+
+.mntn-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 3rem;
+    color: #fff;
+    margin-bottom: 2rem;
+    line-height: 1.2;
+    position: relative;
+    z-index: 1;
+}
+
+.mntn-desc {
+    color: #aaa;
+    line-height: 1.8;
+    font-size: 1rem;
+    position: relative;
+    z-index: 1;
+}
+
+.mntn-link {
+    margin-top: 2rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #D4AF37;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: gap 0.3s;
+}
+
+.mntn-link:hover {
+    gap: 1rem;
+}
+
+/* Ensure images don't overflow on mobile */
+.mntn-image-container {
+    border-radius: 4px;
+    /* subtle rounded */
+}
+
+
+
+/* Ensure Nav Items are clicked and seen */
+#nav-container {
+    position: relative;
+    /* Anchor for absolute slider */
+}
+
+#nav-container li {
+    position: relative;
+    z-index: 10;
 }
