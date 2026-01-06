@@ -184,35 +184,76 @@ async function generateSpeciesProfile() {
 
 
 // --- Navigation Logic ---
-function switchPage(pageId) {
+// --- Navigation Logic with Transitions ---
+async function switchPage(pageId) {
+    const isHome = (pageId === 'home');
+    const currentIsHome = document.getElementById('home-page').classList.contains('active');
+
+    // 1. Logic for leaving Home (Close Book)
+    if (currentIsHome && !isHome) {
+        bookState.target = 0.0; // Close book
+        // Wait for animation to progress partially (adjusted for 2x speed)
+        await new Promise(r => setTimeout(r, 500));
+    }
+
+    // 2. Logic for entering Home (Open Book)
+    if (isHome) {
+        // Ensure book starts opening immediately if we are going there
+        bookState.target = 1.0;
+
+        // Reset specific styles for Home
+        const canvas = document.getElementById('canvas-container');
+        canvas.style.opacity = '1';
+
+        const header = document.getElementById('main-header');
+        header.classList.remove('bg-black/90', 'backdrop-blur-md', 'shadow-2xl', 'border-b', 'border-white/10');
+        header.classList.add('py-6');
+
+        const navContainer = document.getElementById('nav-container');
+        navContainer.classList.add('bg-black/50', 'backdrop-blur-md', 'border', 'border-white/10', 'shadow-lg');
+    }
+
+    // 3. UI Update (Page Switching)
     document.querySelectorAll('.page-section').forEach(el => {
         el.classList.remove('active');
+        el.classList.remove('page-transition-enter'); // Reset anim class
     });
-    const target = document.getElementById(pageId === 'home' ? 'home-page' : pageId);
-    if (target) target.classList.add('active');
 
-    const canvas = document.getElementById('canvas-container');
-    const header = document.getElementById('main-header');
-    const navContainer = document.getElementById('nav-container');
+    const target = document.getElementById(isHome ? 'home-page' : pageId);
+    if (target) {
+        target.classList.add('active');
+        // Apply staggered animation class to the content container inside the section
+        // Note: For Solid Pages, the content is usually in the first child div
+        if (!isHome) {
+            const contentContainer = target.querySelector('div');
+            if (contentContainer) {
+                contentContainer.classList.add('page-transition-enter');
+            }
+        }
+    }
 
-    if (pageId === 'home') {
-        canvas.style.opacity = '1';
-        // Reset header style for home (transparent)
-        header.classList.remove('bg-black/90', 'backdrop-blur-md', 'shadow-2xl', 'border-b', 'border-white/10');
-        header.classList.add('py-6'); // Restore padding
+    // 4. Update Header/Nav Styling for Non-Home
+    if (!isHome) {
+        const canvas = document.getElementById('canvas-container');
 
-        // Restore nav container pill style
-        navContainer.classList.add('bg-black/50', 'backdrop-blur-md', 'border', 'border-white/10', 'shadow-lg');
-    } else {
-        canvas.style.opacity = '0';
-        // Apply solid header style for content pages
+        // Update opacity logic: Team Page needs full brightness for Bees.
+        setTimeout(() => {
+            if (pageId === 'team') {
+                canvas.style.opacity = '1';
+            } else {
+                canvas.style.opacity = '0.3';
+            }
+        }, 800);
+
+        const header = document.getElementById('main-header');
         header.classList.add('bg-black/90', 'backdrop-blur-md', 'shadow-2xl', 'border-b', 'border-white/10');
-        header.classList.remove('py-6'); // Reduce padding slightly if needed, or keep
+        header.classList.remove('py-6');
 
-        // Remove nav container pill style to blend with header
+        const navContainer = document.getElementById('nav-container');
         navContainer.classList.remove('bg-black/50', 'backdrop-blur-md', 'border', 'border-white/10', 'shadow-lg');
     }
 
+    // 5. Update Nav Links
     document.querySelectorAll('.nav-link').forEach(el => {
         el.classList.remove('text-[#D4AF37]');
     });
@@ -223,7 +264,165 @@ function switchPage(pageId) {
             link.classList.add('text-[#D4AF37]');
         }
     });
+
+    // 6. Special Logic for Team Page Decorations
+    // 6. Team Bees Logic
+    if (teamBeeTimer) clearTimeout(teamBeeTimer);
+
+    if (pageId === 'team') {
+        // Entering Team Page: Wait 2s then show bees
+        teamBeeTimer = setTimeout(() => {
+            // Check if still active just in case
+            if (document.getElementById('team').classList.contains('active')) {
+                teamBeeGroup.visible = true;
+                // Double ensure opacity is 1 just in case
+                document.getElementById('canvas-container').style.opacity = '1';
+            }
+        }, 2000);
+    } else {
+        // Leaving Team Page: Hide immediately (Priority)
+        teamBeeGroup.visible = false;
+    }
 }
+// --- 3D Team Card Logic ---
+const teamMembers = [
+    {
+        name: "Lina",
+        role: "Visual Director",
+        desc: "負責整體視覺風格設定，將自然的有機線條轉化為數位介面的語言。致力於創造具有情感溫度的互動體驗。",
+        icon: "🎨"
+    },
+    {
+        name: "Kai",
+        role: "Tech Lead",
+        desc: "專注於 WebGL 與 Three.js 的技術實踐。解決了層次渲染與手機版陀螺儀視差的效能問題，建構流暢的虛擬世界。",
+        icon: "💻"
+    },
+    {
+        name: "Sarah",
+        role: "Botanist",
+        desc: "提供關於授粉生態的科學知識與數據。確保每一個植物與昆蟲的互動都符合生物學的真實性與細節。",
+        icon: "🌿"
+    },
+    {
+        name: "Mike",
+        role: "Sound Engineer",
+        desc: "採集自然的風聲與振翅聲，編織出沉浸式的聽覺景觀。相信聲音是連結虛擬與現實的隱形橋樑。",
+        icon: "🎧"
+    },
+    {
+        name: "Gemini",
+        role: "AI Co-Pilot",
+        desc: "提供創意發想、文案撰寫與程式碼優化建議。是團隊中不知疲倦的智慧核心，隨時準備提供協助。",
+        icon: "✨"
+    }
+];
+
+let currentTeamIndex = 0;
+let isDraggingTeam = false;
+let startX = 0;
+let teamCardEl = null;
+
+// Initialize first member
+function initTeam() {
+    updateTeamCard(0);
+}
+// Call init after load
+window.addEventListener('DOMContentLoaded', initTeam);
+
+function updateTeamCard(index) {
+    const member = teamMembers[index];
+    document.getElementById('member-name').textContent = member.name;
+    document.getElementById('member-role').textContent = member.role;
+    document.getElementById('member-desc').textContent = member.desc;
+    document.getElementById('member-icon').textContent = member.icon;
+}
+
+function startTeamDrag(e) {
+    isDraggingTeam = true;
+    startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+    teamCardEl = document.getElementById('team-card');
+
+    // Add temporary listeners for move/up
+    if (e.type.includes('mouse')) {
+        document.addEventListener('mousemove', onTeamDragMove);
+        document.addEventListener('mouseup', onTeamDragEnd);
+    } else {
+        document.addEventListener('touchmove', onTeamDragMove);
+        document.addEventListener('touchend', onTeamDragEnd);
+    }
+}
+
+function onTeamDragMove(e) {
+    if (!isDraggingTeam) return;
+    // Optional: Follow finger slightly? (Rotation transform)
+    // skipping for simplicity, just detect swipe at end
+}
+
+function onTeamDragEnd(e) {
+    if (!isDraggingTeam) return;
+    isDraggingTeam = false;
+
+    // Cleanup listeners
+    document.removeEventListener('mousemove', onTeamDragMove);
+    document.removeEventListener('mouseup', onTeamDragEnd);
+    document.removeEventListener('touchmove', onTeamDragMove);
+    document.removeEventListener('touchend', onTeamDragEnd);
+
+    const endX = e.type.includes('mouse') ? e.clientX : (e.changedTouches ? e.changedTouches[0].clientX : startX);
+    const diff = endX - startX;
+
+    if (Math.abs(diff) > 50) {
+        if (diff > 0) {
+            triggerFlip('right'); // Dragged right, switch to previous
+        } else {
+            triggerFlip('left'); // Dragged left, switch to next
+        }
+    }
+}
+
+function triggerFlip(direction) {
+    if (!teamCardEl) teamCardEl = document.getElementById('team-card');
+
+    // 1. Flip Out
+    const outClass = direction === 'left' ? 'flip-out-left' : 'flip-out-right';
+    teamCardEl.classList.add(outClass);
+
+    // 2. Wait for half flip (at 90deg) to swap content
+    setTimeout(() => {
+        if (direction === 'left') {
+            currentTeamIndex = (currentTeamIndex + 1) % teamMembers.length;
+        } else {
+            currentTeamIndex = (currentTeamIndex - 1 + teamMembers.length) % teamMembers.length;
+        }
+        updateTeamCard(currentTeamIndex);
+
+        // 3. Remove Out class, Add In class
+        teamCardEl.classList.remove(outClass);
+        const inClass = direction === 'left' ? 'flip-in-right' : 'flip-in-left';
+        teamCardEl.classList.add(inClass);
+
+        // 4. Cleanup In class after animation matches style.css animation duration (0.5s)
+        setTimeout(() => {
+            teamCardEl.classList.remove(inClass);
+        }, 500);
+
+    }, 250); // Half of 0.5s animation
+}
+
+
+// Keyboard navigation for Team Flip
+document.addEventListener('keydown', (e) => {
+    const teamSection = document.getElementById('team');
+    // Only trigger if team section is active
+    if (!teamSection || !teamSection.classList.contains('active')) return;
+
+    if (e.key === 'ArrowRight') {
+        triggerFlip('left'); // Next member
+    } else if (e.key === 'ArrowLeft') {
+        triggerFlip('right'); // Prev member
+    }
+});
 
 // --- 1. Scene Setup ---
 const container = document.getElementById('canvas-container');
@@ -284,6 +483,9 @@ const bookGroup = new THREE.Group();
 scene.add(bookGroup);
 bookGroup.scale.set(1.4, 1.4, 1.4);
 
+// Global references for animation
+let bookState = { value: 1.0, target: 1.0 }; // 1.0 = Open, 0.0 = Closed
+
 const tableGeo = new THREE.PlaneGeometry(60, 60);
 const tableMat = new THREE.MeshStandardMaterial({
     color: 0x1a1a1a,
@@ -296,38 +498,60 @@ table.position.y = -0.5;
 table.receiveShadow = true;
 scene.add(table);
 
+// Global references for animation
+let leftPivot, rightPivot, linesGroup;
+
 function createBook() {
+    // 1. Define Pivots (Hinge at 0,0,0 - Spine Center)
+    leftPivot = new THREE.Group();
+    rightPivot = new THREE.Group();
+    bookGroup.add(leftPivot);
+    bookGroup.add(rightPivot);
+
     const pageGeo = new THREE.BoxGeometry(4, 0.1, 6);
-    const leftPage = new THREE.Mesh(pageGeo, paperWhiteMat);
-    leftPage.position.set(-2.05, 0, 0);
+
+    // 2. Left Page (Child of LeftPivot)
+    // Offset position: Width/2 + tiny gap.
+    // Box center is 0. So to place right edge at pivot 0: move x by -Width/2.
+    // -2.0.
+    leftPage = new THREE.Mesh(pageGeo, paperWhiteMat);
+    leftPage.position.set(-2.0, 0, 0);
     leftPage.castShadow = true;
     leftPage.receiveShadow = true;
-    leftPage.rotation.z = 0.15;
+    leftPivot.add(leftPage);
 
-    const rightPage = new THREE.Mesh(pageGeo, paperWhiteMat);
-    rightPage.position.set(2.05, 0, 0);
+    // 3. Right Page (Child of RightPivot)
+    rightPage = new THREE.Mesh(pageGeo, paperWhiteMat);
+    rightPage.position.set(2.0, 0, 0);
     rightPage.castShadow = true;
     rightPage.receiveShadow = true;
-    rightPage.rotation.z = -0.15;
+    rightPivot.add(rightPage);
 
+    // 4. Spine (Static, or child of one? keep static in middle)
     const spineGeo = new THREE.CylinderGeometry(0.15, 0.15, 6, 16);
     const spine = new THREE.Mesh(spineGeo, paperWhiteMat);
     spine.rotation.x = Math.PI / 2;
     spine.position.y = -0.05;
+    bookGroup.add(spine);
+
+    // 5. Lines (Attach to Left Page)
+    linesGroup = new THREE.Group();
+    leftPage.add(linesGroup); // Move with page!
 
     const lineGeo = new THREE.PlaneGeometry(2.5, 0.05);
     const lineMat = new THREE.MeshBasicMaterial({ color: 0xaaaaaa });
     for (let i = 0; i < 8; i++) {
         const line = new THREE.Mesh(lineGeo, lineMat);
         line.rotation.x = -Math.PI / 2;
-        line.position.set(-2, 0.15, -2 + (i * 0.5));
-        line.rotation.z = 0.15;
-        bookGroup.add(line);
+        // Pos relative to Page Center (-2, 0, 0)
+        // We want them centered on the page surface.
+        // Page surface Y = 0.05.
+        // Line X: 0 (center of page). 
+        // Line Z: spread out.
+        line.position.set(0, 0.06, -2 + (i * 0.5));
+        // line.rotation.z = 0.15; // Removed: inherits from page
+        linesGroup.add(line);
     }
-
-    bookGroup.add(leftPage);
-    bookGroup.add(rightPage);
-    bookGroup.add(spine);
 }
 createBook();
 
@@ -424,37 +648,174 @@ document.addEventListener('mousemove', (event) => {
 
 const clock = new THREE.Clock();
 
+// --- 3D Team Bees Logic ---
+const teamBeeGroup = new THREE.Group();
+scene.add(teamBeeGroup);
+teamBeeGroup.visible = false; // Hidden by default
+
+// Create 3 special bees for the team card
+for (let i = 0; i < 3; i++) {
+    const bee = createBee();
+
+    // Clone materials for fade-in capability
+    bee.traverse((child) => {
+        if (child.isMesh && child.material) {
+            child.material = child.material.clone();
+            child.material.transparent = true;
+            child.material.opacity = 0; // Start invisible
+        }
+    });
+
+    bee.userData.radius = 2.5 + Math.random();
+    bee.userData.yOffset = -0.5 + Math.random();
+    bee.userData.speed = 0.01 + Math.random() * 0.005; // Slower speed
+    teamBeeGroup.add(bee);
+}
+
+// Timer reference
+// Timer reference
+let teamBeeTimer = null;
+let teamBeeOpacity = 0;
+let currentParallaxWeight = 1.0;
+
+
 function animate() {
     requestAnimationFrame(animate);
     const time = clock.getElapsedTime();
 
     // Responsive Parallax Intensity
     const isMobile = window.innerWidth < 768;
-    const parallaxScale = isMobile ? 0.5 : 2; // Reduce mouse movement effect on mobile
+    const parallaxScale = isMobile ? 0.5 : 2;
 
-    camera.position.x = 0 + (mouseX * parallaxScale) + gyroX;
+    // Override for Team Page (Disable Parallax Smoothly)
+    const isTeamPage = document.getElementById('team') && document.getElementById('team').classList.contains('active');
+
+    // Smooth Lerp for Parallax Weight
+    const targetWeight = isTeamPage ? 0.0 : 1.0;
+    currentParallaxWeight += (targetWeight - currentParallaxWeight) * 0.05;
+
+    let effectiveMouseX = mouseX * parallaxScale * currentParallaxWeight;
+    let effectiveMouseY = mouseY * parallaxScale * currentParallaxWeight;
+    let effectiveGyroX = gyroX * currentParallaxWeight;
+    let effectiveGyroY = gyroY * currentParallaxWeight;
+
+    camera.position.x = 0 + effectiveMouseX + effectiveGyroX;
     // Keep base Y consistent with responsive setup
     const baseY = isMobile ? 14 : 10;
-    camera.position.y = baseY + (mouseY * parallaxScale) - gyroY; // Subtract gyroY to make tilt-back move camera down (natural feel)
+    camera.position.y = baseY + effectiveMouseY - effectiveGyroY;
     camera.lookAt(0, 0, 0);
+
+    // Book Opening/Closing Animation Logic
+    // Faster closing speed (2x normal) for snappy "disappear" feel
+    const lerpSpeed = (bookState.target < bookState.value) ? 0.10 : 0.05;
+    bookState.value += (bookState.target - bookState.value) * lerpSpeed;
+
+    // Derived Animation Values
+    let contentScale = 0;
+    let bookRotation = 0; // 0 = Open, 1.57 = Closed
+    let currentBookScale = 1.4;
+
+    // Define Animation Phases (1.0 -> 0.0)
+    // 1.0 -> 0.6: Content Vanishes
+    // 0.6 -> 0.2: Book Closes
+    // 0.2 -> 0.0: Book Shrinks to Nothing
+
+    if (bookState.value > 0.6) {
+        // --- Phase 1: Content Scaling ---
+        // Map 0.6->1.0 to 0.0->1.0
+        contentScale = (bookState.value - 0.6) / 0.4;
+        bookRotation = 0;
+        currentBookScale = 1.4;
+    } else if (bookState.value > 0.2) {
+        // --- Phase 2: Book Closing ---
+        contentScale = 0;
+        // Map 0.2->0.6 to 1.0->0.0 (Closed->Open logic)
+        // 0.2 = Closed (Rot 1.57), 0.6 = Open (Rot 0)
+        const pct = (bookState.value - 0.2) / 0.4;
+        bookRotation = (1 - pct) * 1.57;
+        currentBookScale = 1.4;
+    } else {
+        // --- Phase 3: Book Vanishing ---
+        contentScale = 0;
+        bookRotation = 1.57; // Fully Closed
+        // Map 0.0->0.2 to 0.0->1.4
+        const pct = bookState.value / 0.2;
+        currentBookScale = pct * 1.4;
+    }
+
+    // Apply Scale to Book
+    bookGroup.scale.set(currentBookScale, currentBookScale, currentBookScale);
+
+    // Apply Rotation to Pivots (Correct Hinge Logic)
+    if (leftPivot && rightPivot) {
+        leftPivot.rotation.z = -bookRotation;
+        rightPivot.rotation.z = bookRotation;
+    }
+
+    // Apply Content Scaling
+    if (linesGroup) linesGroup.scale.set(contentScale, contentScale, contentScale);
+    popupGroup.scale.set(contentScale, contentScale, contentScale);
+    popupGroup.visible = contentScale > 0.01;
+
+    bees.forEach(bee => {
+        // Scale bees too
+        bee.scale.set(contentScale, contentScale, contentScale);
+        bee.visible = contentScale > 0.01;
+
+        if (contentScale > 0.01) {
+            const data = bee.userData;
+            data.angle += data.speed;
+            bee.position.x = Math.cos(data.angle) * data.radius;
+            bee.position.z = Math.sin(data.angle) * data.radius;
+            bee.position.y = data.yOffset + Math.sin(time * data.bobSpeed) * 0.2;
+            bee.rotation.y = -data.angle;
+            bee.children[2].rotation.x = Math.sin(time * 30) * 0.5;
+            bee.children[3].rotation.x = Math.sin(time * 30) * 0.5;
+        }
+    });
+
+    // --- Team Bees Animation ---
+    if (teamBeeGroup.visible) {
+        // Fade In
+        if (teamBeeOpacity < 1.0) {
+            teamBeeOpacity += 0.01;
+            if (teamBeeOpacity > 1.0) teamBeeOpacity = 1.0;
+        }
+    } else {
+        teamBeeOpacity = 0;
+    }
+
+    if (teamBeeGroup.visible || teamBeeOpacity > 0) {
+        const spreadScale = isMobile ? 1.0 : 2.0; // Larger range on PC (2.0x base radius)
+
+        teamBeeGroup.children.forEach(bee => {
+            // Apply Fade In Opacity
+            bee.traverse((child) => {
+                if (child.isMesh && child.material) {
+                    child.material.opacity = teamBeeOpacity;
+                }
+            });
+
+            const data = bee.userData;
+            data.angle += data.speed;
+
+            // Apply Responsive Spread
+            bee.position.x = Math.cos(data.angle) * data.radius * spreadScale;
+            bee.position.z = Math.sin(data.angle) * data.radius * spreadScale;
+
+            bee.position.y = data.yOffset + Math.sin(time * data.bobSpeed) * 0.2;
+            bee.rotation.y = -data.angle;
+            bee.children[2].rotation.x = Math.sin(time * 30) * 0.5;
+            bee.children[3].rotation.x = Math.sin(time * 30) * 0.5;
+        });
+    }
 
     bookGroup.position.y = Math.sin(time * 0.5) * 0.1;
 
+    // Popup float animation
     popupGroup.children.forEach((child, idx) => {
-        child.rotation.z = (Math.sin(time * 1.5 + idx) * 0.05);
+        if (contentScale > 0.1) child.rotation.z = (Math.sin(time * 1.5 + idx) * 0.05);
     });
-
-    bees.forEach(bee => {
-        const data = bee.userData;
-        data.angle += data.speed;
-        bee.position.x = Math.cos(data.angle) * data.radius;
-        bee.position.z = Math.sin(data.angle) * data.radius;
-        bee.position.y = data.yOffset + Math.sin(time * data.bobSpeed) * 0.2;
-        bee.rotation.y = -data.angle;
-        bee.children[2].rotation.x = Math.sin(time * 30) * 0.5;
-        bee.children[3].rotation.x = Math.sin(time * 30) * 0.5;
-    });
-
     renderer.render(scene, camera);
 }
 animate();

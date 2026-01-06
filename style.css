@@ -87,6 +87,11 @@ html {
     overflow-y: auto;
 }
 
+/* Allow canvas to be seen on Team page for bees */
+#team.solid-page {
+    background-color: transparent;
+}
+
 .serif-font {
     font-family: 'Noto Serif TC', serif;
 }
@@ -203,4 +208,235 @@ html {
     padding-left: 1.5rem;
     margin-bottom: 1rem;
     color: #a3a3a3;
+}
+
+/* --- Page Transitions: Staggered Slide In --- */
+@keyframes slideUpFade {
+    0% {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.page-transition-enter>h1,
+.page-transition-enter>p,
+.page-transition-enter>div {
+    opacity: 0;
+    transform: translateY(40px);
+    animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.page-transition-enter>*:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.page-transition-enter>*:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.page-transition-enter>*:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.page-transition-enter>*:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.page-transition-enter>*:nth-child(5) {
+    animation-delay: 0.5s;
+}
+
+
+/* --- Team Page: 3D Flip Card Effect --- */
+.perspective-container {
+    perspective: 1000px;
+}
+
+.team-card {
+    transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    cursor: grab;
+    user-select: none;
+}
+
+.team-card:active {
+    cursor: grabbing;
+}
+
+/* Glassmorphism Card Style with 3D Misty Reflection */
+.card-glass {
+    background: rgba(20, 20, 20, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    /* Soft border and shadow */
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+        0 8px 32px 0 rgba(0, 0, 0, 0.5),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+        /* Inner subtle border */
+        inset 1px 1px 0px rgba(255, 255, 255, 0.1),
+        /* Top-Left bevel shine */
+        inset -1px -1px 0px rgba(0, 0, 0, 0.3);
+    /* Bottom-Right subtle bevel shadow */
+    border-radius: 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Diagonal Sheen Overlay */
+.card-glass::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    bottom: -50%;
+    left: -50%;
+    background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0) 30%,
+            rgba(255, 255, 255, 0.03) 38%,
+            rgba(255, 255, 255, 0.08) 40%,
+            rgba(255, 255, 255, 0.03) 42%,
+            rgba(255, 255, 255, 0) 50%);
+    transform: rotate(20deg);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Flip Animations */
+@keyframes flipOutLeft {
+    0% {
+        transform: rotateY(0deg) scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: rotateY(-90deg) scale(0.85);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: rotateY(-90deg) scale(0.85);
+        opacity: 0;
+    }
+}
+
+@keyframes flipInRight {
+    0% {
+        transform: rotateY(90deg) scale(0.85);
+        opacity: 0;
+    }
+
+    50% {
+        transform: rotateY(90deg) scale(0.85);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: rotateY(0deg) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes flipOutRight {
+    0% {
+        transform: rotateY(0deg) scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: rotateY(90deg) scale(0.85);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: rotateY(90deg) scale(0.85);
+        opacity: 0;
+    }
+}
+
+@keyframes flipInLeft {
+    0% {
+        transform: rotateY(-90deg) scale(0.85);
+        opacity: 0;
+    }
+
+    50% {
+        transform: rotateY(-90deg) scale(0.85);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: rotateY(0deg) scale(1);
+        opacity: 1;
+    }
+}
+
+.flip-out-left {
+    animation: flipOutLeft 0.5s forwards ease-in;
+}
+
+.flip-in-right {
+    animation: flipInRight 0.5s forwards ease-out;
+}
+
+.flip-out-right {
+    animation: flipOutRight 0.5s forwards ease-in;
+}
+
+.flip-in-left {
+    animation: flipInLeft 0.5s forwards ease-out;
+}
+
+.page-transition-enter>*:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.page-transition-enter>*:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.page-transition-enter>*:nth-child(5) {
+    animation-delay: 0.5s;
+}
+
+/* --- Geometric Decoration Animation --- */
+@keyframes geoSlideInRight {
+    0% {
+        transform: translateX(100px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes geoSlideOutLeft {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(-100px);
+        opacity: 0;
+    }
+}
+
+.decor-enter {
+    animation: geoSlideInRight var(--duration) cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    animation-delay: var(--delay);
+}
+
+.decor-exit {
+    animation: geoSlideOutLeft 0.8s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+    /* Exit is usually faster and less staggered to clear screen */
+    animation-delay: 0s !important;
 }
