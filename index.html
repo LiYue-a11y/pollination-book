@@ -66,6 +66,9 @@
                 <li class="relative z-10 w-20 md:w-24 text-center flex-shrink-0"><button onclick="switchPage('species')"
                         class="nav-link w-full py-1 hover:text-[#D4AF37] transition-colors duration-300 focus:outline-none">物種檔案</button>
                 </li>
+                <li class="relative z-10 w-20 md:w-24 text-center flex-shrink-0"><button onclick="switchPage('video')"
+                        class="nav-link w-full py-1 hover:text-[#D4AF37] transition-colors duration-300 focus:outline-none">宣傳影片</button>
+                </li>
                 <li class="relative z-10 w-20 md:w-24 text-center flex-shrink-0"><button onclick="switchPage('team')"
                         class="nav-link w-full py-1 hover:text-[#D4AF37] transition-colors duration-300 focus:outline-none">製作團隊</button>
                 </li>
@@ -270,12 +273,38 @@
         </div>
     </section>
 
+    <!-- Page: Promo Video -->
+    <section id="video" class="page-section solid-page">
+        <div class="mntn-container w-full pt-20 md:pt-32 px-4 md:px-12">
+            <div class="mntn-section"
+                style="flex-direction: column; justify-content: start; align-items: center; text-align: center;">
+                <div class="mntn-content" style="max-width: 600px; margin-bottom: 2rem;">
+                    <div class="mntn-number">04</div>
+                    <span class="mntn-label">VISUAL RECORD</span>
+                    <h2 class="mntn-title">宣傳影片</h2>
+                    <p class="mntn-desc">
+                        透過鏡頭的捕捉，紀錄大自然中微小而不凡的瞬間。<br>
+                        垂直影像呈現，請確保您的觀看體驗。
+                    </p>
+                </div>
+
+                <!-- Video Player 1080x1920 (9:16) -->
+                <div
+                    class="relative w-full max-w-[400px] aspect-[9/16] bg-[#0a0a0a] border border-[#333] rounded-xl overflow-hidden shadow-2xl">
+                    <video src="video/video1.mp4" class="w-full h-full object-cover" controls playsinline>
+                        您的瀏覽器不支援影片播放。
+                    </video>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Page: Team -->
     <section id="team" class="page-section solid-page">
         <div class="mntn-container w-full pt-20 md:pt-32 px-4 md:px-12">
             <div class="mntn-section">
                 <div class="mntn-content">
-                    <div class="mntn-number">04</div>
+                    <div class="mntn-number">05</div>
                     <span class="mntn-label">THE CREW</span>
                     <h2 class="mntn-title">製作團隊</h2>
                     <p class="mntn-desc">
