@@ -300,29 +300,24 @@ const teamMembers = [
         image: "img/Headshot01.jpg"
     },
     {
-        name: "Lina",
-        role: "Visual Director",
-        desc: "負責整體視覺風格設定，將自然的有機線條轉化為數位介面的語言。致力於創造具有情感溫度的互動體驗。",
-        icon: "🎨"
+        name: "鄭鈺儒",
+        role: "組員 Team Member",
+        desc: "負責插畫設計、主視覺海報設計。以細膩的筆觸描繪自然生態，賦予作品獨特的視覺美感與生命力。",
+        image: "img/Headshot03.jpg"
     },
     {
-        name: "Kai",
-        role: "Tech Lead",
-        desc: "專注於 WebGL 與 Three.js 的技術實踐。解決了層次渲染與手機版陀螺儀視差的效能問題，建構流暢的虛擬世界。",
-        icon: "💻"
+        name: "張嘉容",
+        role: "組員 Team Member",
+        desc: "負責標準字設計與插畫設計。專注於字體結構與圖像敘事的結合，為作品注入獨特的視覺個性。",
+        image: "img/Headshot04.jpg"
     },
     {
-        name: "Sarah",
-        role: "Botanist",
-        desc: "提供關於授粉生態的科學知識與數據。確保每一個植物與昆蟲的互動都符合生物學的真實性與細節。",
-        icon: "🌿"
+        name: "田郁棻",
+        role: "組員 Team Member",
+        desc: "負責企劃書與書籍編排設計。細心梳理文字脈絡與版面構成，將豐富的內容轉化為清晰優雅的閱讀體驗。",
+        image: "img/Headshot05.jpg"
     },
-    {
-        name: "Mike",
-        role: "Sound Engineer",
-        desc: "採集自然的風聲與振翅聲，編織出沉浸式的聽覺景觀。相信聲音是連結虛擬與現實的隱形橋樑。",
-        icon: "🎧"
-    },
+
     {
         name: "Gemini",
         role: "AI Co-Pilot",
